@@ -11,6 +11,8 @@ A project-based learning path covering **caching concepts, Redis, and rate limit
   <img src="https://img.shields.io/badge/License-MIT-blue" alt="License" />
 </p>
 
+[![InformaTruth](https://github.com/user-attachments/assets/6d957079-0a92-4661-8a67-f1bfc4ab3a0a)](https://github.com/user-attachments/assets/6d957079-0a92-4661-8a67-f1bfc4ab3a0a)
+
 ---
 
 ## About
