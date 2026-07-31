@@ -1,0 +1,21 @@
+# Minimal Redis for local Phase 3 work.
+services:
+  redis:
+    image: redis:7.4-alpine
+    ports:
+      - "6379:6379"
+    # --appendonly yes  = AOF persistence (Phase 7 topic). Kept on so your
+    # sessions/queues survive a container restart while you are learning.
+    # --maxmemory-policy noeviction is DELIBERATE: if Redis is also your queue,
+    # allkeys-lru could silently evict jobs. Use a SEPARATE Redis instance
+    # (or db) for pure cache with allkeys-lru.
+    command: >
+      redis-server
+      --appendonly yes
+      --maxmemory 256mb
+      --maxmemory-policy noeviction
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5

@@ -1,0 +1,10 @@
+# Prometheus scrape config for the Redis monitoring stack.
+# It scrapes the redis_exporter, which exposes Redis metrics from INFO.
+global:
+  scrape_interval: 15s        # pull metrics every 15 seconds
+
+scrape_configs:
+  - job_name: "redis"
+    static_configs:
+      # 'redis-exporter' is the service name from docker-compose.monitoring.yml
+      - targets: ["redis-exporter:9121"]

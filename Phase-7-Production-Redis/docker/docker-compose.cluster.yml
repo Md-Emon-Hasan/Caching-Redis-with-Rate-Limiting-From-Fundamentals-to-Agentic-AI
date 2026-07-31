@@ -1,0 +1,69 @@
+# ============================================================================
+#  docker-compose.cluster.yml
+#  Six nodes for a Redis Cluster (3 masters + 3 replicas). Concept 4 in Docker.
+#
+#  Run:
+#    docker compose -f docker-compose.cluster.yml up -d
+#
+#  Then FORM the cluster (one-time), using host networking ports:
+#    docker exec -it redis-node-1 redis-cli --cluster create \
+#      127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 \
+#      127.0.0.1:7004 127.0.0.1:7005 127.0.0.1:7006 \
+#      --cluster-replicas 1 --cluster-yes
+#
+#  Inspect:
+#    docker exec -it redis-node-1 redis-cli -p 7001 cluster nodes
+#
+#  NOTE: cluster nodes must advertise a reachable address. Here we use
+#  host networking so each node is on 127.0.0.1:<port>, which keeps the
+#  create command simple for a single-host learning setup. For multi-host
+#  production, set cluster-announce-ip / cluster-announce-port per node.
+# ============================================================================
+services:
+  redis-node-1:
+    image: redis:7-alpine
+    container_name: redis-node-1
+    network_mode: host
+    command: ["redis-server", "--port", "7001", "--cluster-enabled", "yes",
+              "--cluster-config-file", "nodes.conf",
+              "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+
+  redis-node-2:
+    image: redis:7-alpine
+    container_name: redis-node-2
+    network_mode: host
+    command: ["redis-server", "--port", "7002", "--cluster-enabled", "yes",
+              "--cluster-config-file", "nodes.conf",
+              "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+
+  redis-node-3:
+    image: redis:7-alpine
+    container_name: redis-node-3
+    network_mode: host
+    command: ["redis-server", "--port", "7003", "--cluster-enabled", "yes",
+              "--cluster-config-file", "nodes.conf",
+              "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+
+  redis-node-4:
+    image: redis:7-alpine
+    container_name: redis-node-4
+    network_mode: host
+    command: ["redis-server", "--port", "7004", "--cluster-enabled", "yes",
+              "--cluster-config-file", "nodes.conf",
+              "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+
+  redis-node-5:
+    image: redis:7-alpine
+    container_name: redis-node-5
+    network_mode: host
+    command: ["redis-server", "--port", "7005", "--cluster-enabled", "yes",
+              "--cluster-config-file", "nodes.conf",
+              "--cluster-node-timeout", "5000", "--appendonly", "yes"]
+
+  redis-node-6:
+    image: redis:7-alpine
+    container_name: redis-node-6
+    network_mode: host
+    command: ["redis-server", "--port", "7006", "--cluster-enabled", "yes",
+              "--cluster-config-file", "nodes.conf",
+              "--cluster-node-timeout", "5000", "--appendonly", "yes"]

@@ -1,0 +1,10 @@
+# Core
+redis>=5.0.0          # Redis client (the star of Phase 5)
+fastapi>=0.110.0      # web framework for the /chat API
+uvicorn>=0.29.0       # ASGI server that runs FastAPI
+pydantic>=2.0.0       # request validation (comes with FastAPI, listed for clarity)
+python-dotenv>=1.0.0  # load .env locally during development
+
+# Models
+groq>=0.9.0        # LLM calls via Groq
+fastembed>=0.4.0   # free local embeddings from Hugging Face models, no Torch

@@ -1,0 +1,22 @@
+# ============================================================================
+#  docker-compose.yml - spin up Redis with one command
+# ============================================================================
+#  Usage:
+#      docker compose up -d      # start Redis in the background
+#      docker compose down       # stop it
+#
+#  This gives you a local Redis on localhost:6379 - exactly what config.py
+#  expects by default. No manual install needed.
+# ============================================================================
+services:
+  redis:
+    image: redis:7-alpine        # small, fast, official Redis image
+    container_name: phase5-redis
+    ports:
+      - "6379:6379"              # expose Redis on your machine's port 6379
+    volumes:
+      - redis-data:/data         # persist data across restarts (RDB/AOF)
+    command: ["redis-server", "--appendonly", "yes"]  # enable AOF persistence
+
+volumes:
+  redis-data:

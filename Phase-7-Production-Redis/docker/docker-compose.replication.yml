@@ -1,0 +1,31 @@
+# ============================================================================
+#  docker-compose.replication.yml
+#  One master + two read replicas. Reads scale by adding replicas; writes go
+#  to the master. Concept 2 in a runnable Docker form.
+#
+#  Run:   docker compose -f docker-compose.replication.yml up -d
+#  Check: docker exec -it redis-master redis-cli INFO replication
+# ============================================================================
+services:
+  redis-master:
+    image: redis:7-alpine
+    container_name: redis-master
+    command: ["redis-server", "--appendonly", "yes"]
+    ports: ["6379:6379"]
+
+  redis-replica-1:
+    image: redis:7-alpine
+    container_name: redis-replica-1
+    # --replicaof <host> <port> makes this a replica of the master service.
+    command: ["redis-server", "--replicaof", "redis-master", "6379",
+              "--appendonly", "yes"]
+    ports: ["6380:6379"]
+    depends_on: [redis-master]
+
+  redis-replica-2:
+    image: redis:7-alpine
+    container_name: redis-replica-2
+    command: ["redis-server", "--replicaof", "redis-master", "6379",
+              "--appendonly", "yes"]
+    ports: ["6381:6379"]
+    depends_on: [redis-master]

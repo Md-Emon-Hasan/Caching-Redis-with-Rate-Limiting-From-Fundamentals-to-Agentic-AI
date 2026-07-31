@@ -1,0 +1,16 @@
+# Core
+redis>=5.0.0          # Redis client - memory, state, checkpoints, blackboard
+fastapi>=0.110.0      # web API for /run and inspection endpoints
+uvicorn>=0.29.0       # ASGI server that runs FastAPI
+pydantic>=2.0.0       # request validation
+python-dotenv>=1.0.0  # load .env locally during development
+
+# Optional: only needed if you set GROQ_API_KEY to use REAL agents.
+# The system runs fully offline with deterministic mock agents otherwise.
+groq>=0.9.0
+
+# Optional: to swap this hand-built graph for the real LangGraph framework
+# with a Redis checkpointer, install these and follow the notes in the
+# handbook (Chapter 7). Not required to run this project.
+# langgraph>=0.2.0
+# langgraph-checkpoint-redis
